@@ -1,0 +1,27 @@
+[package]
+name = "hello_dem"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+cortex-m = "0.7.7"
+cortex-m-rt = "0.7.5"
+
+nb = "1.1.0"
+panic-halt = "1.0.0"
+stm32f1xx-hal = {features = ["stm32f103", "medium"],  version="0.11.0"}
+
+
+
+#profile.dev开发模式配置：通过 cargo build 触发，默认用于开发阶段，优先保证编译速度，优化程度较低，保留调试信息
+#profile.release发布模式配置：通过 cargo build --release 触发，用于最终发布，优先保证运行性能，启用高优化，默认不保留调试信息
+[profile.dev]  #编译配置设置
+incremental = false   # 禁用增量编译
+codegen-units = 1   # 代码生成单元设为 1
+panic = "abort"   #出错程序直接终止
+
+[profile.release]
+codegen-units = 1
+debug = true   # 保留调试信息
+lto = true     # 启用链接时优化
+panic = "abort"
